@@ -16,4 +16,12 @@ $( document ).ready(function() {
         $('.y_val').val('');
         $('.solution').text('');
     });
+    $( ".ajax" ).on( "click", function() {
+        $.ajax({
+            url: "/application/hello/",
+        })
+        .done(function( data ) {
+            console.log(data['message']);
+        });
+    });
 });

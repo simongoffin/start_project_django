@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from application.forms import CalculForm
+import json
 
 
 
@@ -30,4 +31,9 @@ def home(request):
     else:
         form = CalculForm()
         return render(request, 'application/home.html',locals())
+
+def hello(request):
+    response_data = {}
+    response_data['message'] = 'Hello World'
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
         
