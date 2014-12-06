@@ -20,13 +20,17 @@
         <form action="{% url "application.views.home" %}" method="get">{% csrf_token %}
             <input type="submit" value="clear"/>
         </form>
-        <button class='xxx' type="button">Click Me!</button>
         {%if check %}
             <p>{{x}}+{{y}}={{z}}</p>
         {% endif %}
         {%if error %}
             <p>{{message}}</p>
         {% endif %}
+        <p>x. <input type="text" class="x_val"></p>
+        <p>y. <input type="text" class="y_val"></p>
+        <div><button class='run_js' type="button">run js</button></div>
+        <div><button class='clear_js' type="button">clear js</button></div>
+        <p class='solution'></p>
     </body>
 </html>
 
