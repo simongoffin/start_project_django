@@ -33,7 +33,14 @@ def home(request):
         return render(request, 'application/home.html',locals())
 
 def hello(request):
-    response_data = {}
-    response_data['message'] = 'Hello World'
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+    if request.method == 'POST':
+        name = request.POST['name']
+        response_data = {}
+        response_data['message'] = 'Hello %s !!!'%name
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )
         
