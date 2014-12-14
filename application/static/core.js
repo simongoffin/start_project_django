@@ -40,14 +40,18 @@ $( document ).ready(function() {
             data: { name: $('.name').val(), csrfmiddlewaretoken: csrftoken},
         })
         .done(function( data ) {
+            window.location.href ='/application/confirmation/';
             console.log(data['message']);
-            $('.name').val('');
         })
         .fail(function() {
             alert( "error" );
         })
         .always(function() {
-            alert( "complete" );
+            console.log('Finish');
         });
+    });
+    $('#Test').modal('show');
+    $( ".ok" ).on( "click", function() {
+        window.location.href ='/application/home/';
     });
 });

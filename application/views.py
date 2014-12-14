@@ -7,6 +7,9 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from application.forms import CalculForm
 import json
+import logging
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 
@@ -37,10 +40,12 @@ def hello(request):
         name = request.POST['name']
         response_data = {}
         response_data['message'] = 'Hello %s !!!'%name
+        logging.info('Hello %s !!!'%name)
         return HttpResponse(json.dumps(response_data), content_type="application/json")
     else:
-        return HttpResponse(
-            json.dumps({"nothing to see": "this isn't happening"}),
-            content_type="application/json"
-        )
+            logging.error("nothing to see")
+            return HttpResponse(json.dumps({"nothing to see": "this isn't happening"}), content_type="application/json")
+
+def confirmation(request):
+    return render(request, 'application/modal.html')
         
