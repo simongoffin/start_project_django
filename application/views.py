@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from application.forms import CalculForm
+from application.forms import CalculForm, HelloForm
 import json
 import logging
 
@@ -33,6 +33,7 @@ def home(request):
         return render(request, 'application/home.html',locals())
     else:
         form = CalculForm()
+        form2 = HelloForm()
         return render(request, 'application/home.html',locals())
 
 def hello(request):
@@ -48,4 +49,20 @@ def hello(request):
 
 def confirmation(request):
     return render(request, 'application/modal.html')
+
+def message(request):
+    if request.method == 'POST':  # S'il s'agit d'une requête POST
+        form = HelloForm(request.POST)  # Nous reprenons les données
+        if form.is_valid(): # Nous vérifions que les données envoyées sont valides
+            message = 'Hello %s!'%form.cleaned_data['z']
+        else:
+            message="Bad value"
+            error=True
+        return render(request, 'application/modal2.html',locals())
+    else:
+        form = CalculForm()
+        form2 = HelloForm()
+        return render(request, 'application/home.html',locals())
+
+
         

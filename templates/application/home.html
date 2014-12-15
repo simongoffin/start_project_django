@@ -36,6 +36,13 @@
         <p class='solution'></p>
         <div><button class='ajax' type="button">Ajax</button></div>
         <p>name. <input type="text" class="name"></p>
+        <form action="{% url "application.views.message" %}" method="post">
+            {% csrf_token %}
+            {% for f in form2 %}
+                <p>{{f.label}}{{ f }}</p>
+            {% endfor %}
+            <input id="boutons" style="cursor:pointer;" type="submit" value="run" />
+        </form>
         {% block content %}{% endblock %}
     </body>
 </html>
