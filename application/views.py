@@ -44,8 +44,8 @@ def hello(request):
         logging.info('Hello %s !!!'%name)
         return HttpResponse(json.dumps(response_data), content_type="application/json")
     else:
-            logging.error("nothing to see")
-            return HttpResponse(json.dumps({"nothing to see": "this isn't happening"}), content_type="application/json")
+        logging.error("nothing to see")
+        return HttpResponse(json.dumps({"nothing to see": "this isn't happening"}), content_type="application/json")
 
 def confirmation(request):
     return render(request, 'application/modal.html')
