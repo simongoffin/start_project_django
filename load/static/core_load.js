@@ -32,4 +32,30 @@ $( document ).ready(function() {
         $('.y_val').val('');
         $('.solution').text('');
     });
+    var progressBar;
+    var percent = 0;
+    progressBar = new ProgressBar("results", {'width':'250px', 'height':'25px'});
+    progressBar.setPercent(percent);
+    $( ".ajax" ).on( "click", function() {
+            var csrftoken = getCookie('csrftoken');
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8000/load/progress/",
+                data: { state: percent, csrfmiddlewaretoken: csrftoken},
+            })
+            .done(function( data ) {
+                percent = data['state'];
+                progressBar.setPercent(percent);
+            })
+            .fail(function() {
+                alert( "error" );
+            })
+            .always(function() {
+                if(percent == 100){
+                    percent = 0;
+                    progressBar.setPercent(percent);
+                    console.log('Finish');
+                }
+            });
+    });
 });
