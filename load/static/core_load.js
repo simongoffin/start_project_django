@@ -15,7 +15,36 @@ function getCookie(name) {
     return cookieValue;
 }
 
+
 $( document ).ready(function() {
+    var loading = function(percent){
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+            type: "POST",
+            url: "http://127.0.0.1:8000/load/progress/",
+            data: { state: percent, csrfmiddlewaretoken: csrftoken},
+        })
+        .done(function( data ) {
+            percent = data['state'];
+            progressBar.setPercent(percent);
+            if(percent < 100){
+                setTimeout(function() {
+                    loading(percent);
+                }, 2000);
+            }
+        })
+        .fail(function() {
+            alert( "error" );
+        })
+        .always(function() {
+            if(percent == 100){
+                percent = 0;
+                progressBar.setPercent(percent);
+                console.log('Finish');
+                return;
+            }
+        });
+    };
     $( ".run_js" ).on( "click", function() {
         var xx = parseInt($('.x_val').val());
         var yy = parseInt($('.y_val').val());
@@ -37,25 +66,6 @@ $( document ).ready(function() {
     progressBar = new ProgressBar("results", {'width':'250px', 'height':'25px'});
     progressBar.setPercent(percent);
     $( ".ajax" ).on( "click", function() {
-            var csrftoken = getCookie('csrftoken');
-            $.ajax({
-                type: "POST",
-                url: "http://127.0.0.1:8000/load/progress/",
-                data: { state: percent, csrfmiddlewaretoken: csrftoken},
-            })
-            .done(function( data ) {
-                percent = data['state'];
-                progressBar.setPercent(percent);
-            })
-            .fail(function() {
-                alert( "error" );
-            })
-            .always(function() {
-                if(percent == 100){
-                    percent = 0;
-                    progressBar.setPercent(percent);
-                    console.log('Finish');
-                }
-            });
+        loading(percent);
     });
 });
